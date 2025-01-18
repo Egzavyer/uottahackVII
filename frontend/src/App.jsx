@@ -1,7 +1,9 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import {Bars} from 'react-loader-spinner';
 
 function App() {
+  const [loading,setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [result, setResult] = useState(null);
@@ -22,6 +24,7 @@ function App() {
     formData.append("file", image);
 
     try {
+      setLoading(true);
       const response = await axios.post("http://localhost:8000/upload/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -68,6 +71,7 @@ function App() {
     formData.append("file", audioBlob, "recording.m4a");
 
     try {
+      setLoading(true);
       const response = await axios.post("http://localhost:8000/voice/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -154,6 +158,16 @@ function App() {
       </button>
 
       {/* Display Result */}
+      {result === null && loading &&
+      (<Bars
+        height="80"
+        width="80"
+        color="#4fa94d"
+        ariaLabel="bars-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+        />)}
       {result && (
         <div className="bg-white p-6 rounded-lg shadow-md text-center">
           <p className="text-lg font-medium text-gray-700">
