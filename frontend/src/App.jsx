@@ -15,7 +15,7 @@ function App() {
   const handleTextSubmit = async () => {
 
     const formData = new FormData();
-    formData.append("contextText", contextText);
+    formData.append("context", contextText);
 
     try {
       const response = await axios.post("http://localhost:8000/text/", formData, {
