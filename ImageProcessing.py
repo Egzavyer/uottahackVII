@@ -9,7 +9,7 @@ class ImageProcessing:
             api_key=os.environ.get("GROQ_API_KEY"),
         )
         self.model = "llama-3.2-11b-vision-preview"
-        self.prompt = "Analyze this image to estimate the total calorie content of the visible food. Clearly identify each food item, approximate portion sizes, and calculate their caloric values based on standard nutritional data. If you are uncertain about a food item, specify your assumptions. Additionally, provide a breakdown of calories per item and note any factors that might affect the accuracy, such as poor lighting, unusual plating, or ambiguous portions"
+        self.prompt = "Analyze this image and provide a detailed description of the visible food items. Include: The type of food (e.g., fruits, vegetables, proteins, grains, processed items), Approximate portion sizes or quantities (e.g., 'two slices of bread,' 'a cup of rice'). Preparation methods (e.g., 'grilled,' 'fried,' 'raw'). Additional details, such as garnishes, sauces, or toppings. Focus on clarity and include all visible food items, even if they appear in the background or partially obscured."
 
     def encodeImage(self, filepath):
         with open(filepath, "rb") as image:
@@ -36,6 +36,3 @@ class ImageProcessing:
         )
 
         return chat_completion.choices[0].message.content
-
-
-imagePath = "bigmac.jpg"
