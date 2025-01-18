@@ -16,9 +16,14 @@ app.add_middleware(
 
 @app.post("/upload/")
 async def uploadImage(file: UploadFile = File(...)):
+    fileLocation = f"uploads/{file.filename}"
+    with open(fileLocation, "wb") as f:
+        f.write(await file.read())
     img = ImageProcessing()
     dsc = DescriptionProcessing()
-    return {"message": dsc.approximateCalories(img.imageToText(img.encodeImage(file)))}
+    res = dsc.approximateCalories(img.imageToText(img.encodeImage(fileLocation)))
+    print(res)
+    return {"message": res}
 
 
 if __name__ == "__main__":

@@ -21,7 +21,6 @@ class DescriptionProcessing:
                 },
             ],
             model=self.model,
-            max_completion_tokens=512,
         )
 
         return chat_completion.choices[0].message.content
