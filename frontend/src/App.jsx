@@ -19,11 +19,13 @@ function App() {
     formData.append("context", contextText);
 
     try {
+      setLoading(true);
       const response = await axios.post("http://localhost:8000/text/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+      setLoading(false);
       setResult(response.data.message);
     } catch (error) {
       console.error("Error uploading text:", error);
@@ -47,6 +49,7 @@ function App() {
           "Content-Type": "multipart/form-data",
         },
       });
+      setLoading(false);
       setResult(response.data.message);
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -82,6 +85,7 @@ function App() {
                   "Content-Type": "multipart/form-data",
                 },
               });
+              setLoading(false);
               setTranscription(response.data.transcription);
               setResult(response.data.result);
             } catch (error) {
@@ -196,14 +200,16 @@ function App() {
             {/* Loading Spinner or Result */}
             {result === null && loading && (
               <div className="flex justify-center">
-                <Bars
+                <TailSpin
+                  visible={true}
                   height="80"
                   width="80"
                   color="#4fa94d"
-                  ariaLabel="bars-loading"
+                  ariaLabel="tail-spin-loading"
+                  radius="1"
                   wrapperStyle={{}}
-                  visible={true}
-                />
+                  wrapperClass=""
+                  />
               </div>
             )}
             {result && (
