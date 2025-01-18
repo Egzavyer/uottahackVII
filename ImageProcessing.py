@@ -3,6 +3,7 @@ import base64
 from groq import Groq
 
 
+
 class ImageProcessing:
     def __init__(self):
         self.client = Groq(
