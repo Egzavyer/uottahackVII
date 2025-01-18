@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-import { Bars } from 'react-loader-spinner';
+import { TailSpin } from 'react-loader-spinner';
 
 function App() {
   const [loading, setLoading] = useState(false);
