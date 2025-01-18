@@ -34,10 +34,8 @@ def imageToText(client, model, base64Image, prompt):
 
 
 visionModel = "llama-3.2-11b-vision-preview"
-llamaModel = "llama3-8b-8192"
 
 imagePath = "bigmac.jpg"
 base64Image = encodeImage(imagePath)
-# prompt = "Estimate the amount of calories present in each food item in the picture and the total amount of calories"
 prompt = "Analyze this image to estimate the total calorie content of the visible food. Clearly identify each food item, approximate portion sizes, and calculate their caloric values based on standard nutritional data. If you are uncertain about a food item, specify your assumptions. Additionally, provide a breakdown of calories per item and note any factors that might affect the accuracy, such as poor lighting, unusual plating, or ambiguous portions"
 print(imageToText(client, visionModel, base64Image, prompt))
