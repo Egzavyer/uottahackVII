@@ -1,4 +1,5 @@
 import os
+import pathlib
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -17,6 +18,7 @@ app.add_middleware(
 
 @app.post("/voice/")
 async def uploadVoice(file:UploadFile = File(...)):
+    pathlib.Path('/voice/').mkdir(parents=True, exist_ok=True) 
     fileLocation = f"voice/{file.filename}"
     with open(fileLocation,"wb") as f:
         f.write(await file.read())
@@ -25,12 +27,13 @@ async def uploadVoice(file:UploadFile = File(...)):
     transcription = voice.processVoice(fileLocation)
     res = dsc.approximateCalories(transcription)    
     print(transcription)
-    #os.remove("./frontend/"+fileLocation)
+    os.remove(fileLocation)
     return {"transcription": transcription, "result": res}
 
 
 @app.post("/upload/")
 async def uploadImage(file: UploadFile = File(...)):
+    pathlib.Path('/uploads/').mkdir(parents=True, exist_ok=True) 
     fileLocation = f"uploads/{file.filename}"
     with open(fileLocation, "wb") as f:
         f.write(await file.read())
@@ -39,7 +42,7 @@ async def uploadImage(file: UploadFile = File(...)):
     res = dsc.approximateCalories(img.imageToText(img.encodeImage(fileLocation)))
     print(img.imageToText(img.encodeImage(fileLocation)))
     print(res)
-    #os.remove("./frontend/"+fileLocation)
+    os.remove(fileLocation)
     return {"message": res}
 
 @app.post("/text/")
