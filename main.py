@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -23,6 +24,7 @@ async def uploadVoice(file:UploadFile = File(...)):
     dsc = DescriptionProcessing()
     res = dsc.approximateCalories(voice.processVoice())
     print(res)
+    os.remove("./frontend/"+fileLocation)
     return {"message": res}
 
 
@@ -35,6 +37,7 @@ async def uploadImage(file: UploadFile = File(...)):
     dsc = DescriptionProcessing()
     res = dsc.approximateCalories(img.imageToText(img.encodeImage(fileLocation)))
     print(res)
+    os.remove("./frontend/"+fileLocation)
     return {"message": res}
 
 
