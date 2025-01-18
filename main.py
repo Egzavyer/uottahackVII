@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from ImageProcessing import ImageProcessing
 from DescriptionProcessing import DescriptionProcessing
+from VoiceProcessing import VoiceProcessing
 
 app = FastAPI()
 
@@ -12,6 +13,17 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.post("/voice/")
+async def uploadVoice(file:UploadFile = File(...)):
+    fileLocation = f"voice/{file.filename}"
+    with open(fileLocation,"wb") as f:
+        f.write(await file.read())
+    voice = VoiceProcessing()
+    dsc = DescriptionProcessing()
+    res = dsc.approximateCalories(voice.processVoice())
+    print(res)
+    return {"message": res}
 
 
 @app.post("/upload/")
