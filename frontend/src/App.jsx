@@ -192,11 +192,12 @@ function App() {
 
       {/* Display Result */}
       {result === null && loading &&
-      (<Bars
-        height="80"
-        width="80"
+      (<BallTriangle
+        height={100}
+        width={100}
+        radius={5}
         color="#4fa94d"
-        ariaLabel="bars-loading"
+        ariaLabel="ball-triangle-loading"
         wrapperStyle={{}}
         wrapperClass=""
         visible={true}
