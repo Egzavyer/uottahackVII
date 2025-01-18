@@ -158,8 +158,6 @@ function App() {
         <input
         type = "text"
         placeholder="Context"
-
-        
         ></input>
 
       </div>
