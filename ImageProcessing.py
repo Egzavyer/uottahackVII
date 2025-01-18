@@ -9,8 +9,8 @@ class ImageProcessing:
             api_key=os.environ.get("GROQ_API_KEY"),
         )
         self.model = "llama-3.2-11b-vision-preview"
-        self.prompt = "Analyze this image and provide a detailed description of the visible food items. Include: The type of food (e.g., fruits, vegetables, proteins, grains, processed items), Approximate portion sizes or quantities (e.g., 'two slices of bread,' 'a cup of rice'). Preparation methods (e.g., 'grilled,' 'fried,' 'raw'). Additional details, such as garnishes, sauces, or toppings. Focus on clarity and include all visible food items, even if they appear in the background or partially obscured."
-
+        self.prompt = "Analyse this image with the goal of describing the food. You must name all foods and their portions. List the types of food, the portion size, the way the food is prepared for each food. Include all visible food items, even if they appear in the background or partially obscured."
+    
     def encodeImage(self, filepath):
         with open(filepath, "rb") as image:
             return base64.b64encode(image.read()).decode("utf-8")

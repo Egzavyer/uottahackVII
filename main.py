@@ -37,6 +37,7 @@ async def uploadImage(file: UploadFile = File(...)):
     img = ImageProcessing()
     dsc = DescriptionProcessing()
     res = dsc.approximateCalories(img.imageToText(img.encodeImage(fileLocation)))
+    print(img.imageToText(img.encodeImage(fileLocation)))
     print(res)
     #os.remove("./frontend/"+fileLocation)
     return {"message": res}
