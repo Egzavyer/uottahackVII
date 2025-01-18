@@ -5,6 +5,8 @@ client = Groq(
     api_key=os.environ.get("GROQ_API_KEY"),
 )
 
+userInput = input("Question: ")
+
 chat_completion = client.chat.completions.create(
     messages=[
         {
@@ -13,10 +15,10 @@ chat_completion = client.chat.completions.create(
         },
         {
             "role": "user",
-            "content": "How many calories are in a motts Fruitsations Assorted Fruits gummy bag small snack 22.6g",
+            "content": userInput,
         }
     ],
-    model="llama-3.3-70b-versatile",
+    model="llama3-8b-8192",
     max_completion_tokens=1024,
 )
 
