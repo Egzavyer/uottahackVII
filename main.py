@@ -24,7 +24,7 @@ async def uploadVoice(file:UploadFile = File(...)):
     dsc = DescriptionProcessing()
     res = dsc.approximateCalories(voice.processVoice())
     print(res)
-    os.remove("./frontend/"+fileLocation)
+    os.remove(fileLocation)
     return {"message": res}
 
 
@@ -37,7 +37,7 @@ async def uploadImage(file: UploadFile = File(...)):
     dsc = DescriptionProcessing()
     res = dsc.approximateCalories(img.imageToText(img.encodeImage(fileLocation)))
     print(res)
-    os.remove("./frontend/"+fileLocation)
+    os.remove(fileLocation)
     return {"message": res}
 
 
