@@ -111,90 +111,111 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 py-10">
-      <h1 className="text-4xl font-bold text-gray-800 mb-8">BabyGroqFood: Calorie Estimator</h1>
-
-      {/* Buttons for Recording */}
-      <div className="flex flex-col items-center space-y-4 mb-6">
-        <div className="flex space-x-4">
-          <button
-            onClick={handleRecordClick}
-            className={`px-6 py-2 rounded-lg text-white ${
-              isRecording ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {isRecording ? "Stop Recording" : "Start Recording"}
-          </button>
+        <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white py-10 px-4">
+          <h1 className="text-4xl font-bold mb-8 text-center">BabyGroqFood</h1>
+          <h1 className="text-xl mb-8 text-center">Calorie Estimator</h1>
+    
+          {/* Main Container */}
+          <div className="w-full max-w-lg space-y-6">
+    
+            {/* Audio Recording Section */}
+            <div className="bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
+              <div className="flex justify-center">
+                <button
+                  onClick={handleRecordClick}
+                  className={`px-6 py-2 rounded-lg transition-colors duration-200 ${
+                    isRecording
+                      ? "bg-red-600 hover:bg-red-700"
+                      : "bg-blue-600 hover:bg-blue-700"
+                  }`}
+                >
+                  {isRecording ? "Stop Recording" : "Start Recording"}
+                </button>
+              </div>
+              {transcription && (
+                <p className="text-center text-lg font-medium">
+                  Transcription: <span className="font-bold">{transcription}</span>
+                </p>
+              )}
+            </div>
+    
+            {/* File Upload Section */}
+            <div className="bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
+              <input
+                type="file"
+                onChange={handleFileChange}
+                className="w-full text-sm text-gray-400
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-lg file:border-0
+                  file:bg-gray-700 file:text-white
+                  hover:file:bg-gray-600
+                "
+              />
+              {imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt="Selected"
+                  className="mx-auto max-w-full rounded-lg shadow-md"
+                />
+              )}
+              <button
+                onClick={handleSubmit}
+                className="w-full px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
+              >
+                Upload
+              </button>
+            </div>
+    
+            {/* Start Over Button */}
+            <button
+              onClick={handleReset}
+              className="w-full px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition-colors duration-200"
+            >
+              Start Over
+            </button>
+    
+            {/* Context Section */}
+            <div className="bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
+              <input
+                type="text"
+                placeholder="Context"
+                onChange={(e) => setContextText(e.target.value)}
+                value={contextText}
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 placeholder-gray-400 text-white
+                  focus:outline-none focus:ring-2 focus:ring-blue-600
+                "
+              />
+              <button
+                onClick={handleTextSubmit}
+                className="w-full px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
+              >
+                Text Button
+              </button>
+            </div>
+    
+            {/* Loading Spinner or Result */}
+            {result === null && loading && (
+              <div className="flex justify-center">
+                <Bars
+                  height="80"
+                  width="80"
+                  color="#4fa94d"
+                  ariaLabel="bars-loading"
+                  wrapperStyle={{}}
+                  visible={true}
+                />
+              </div>
+            )}
+            {result && (
+              <div className="bg-gray-800 p-6 rounded-lg shadow-md text-center">
+                <p className="text-lg font-medium">
+                  Estimated Calories: <span className="font-bold">{result}</span>
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-        {transcription && (
-          <p className="text-lg font-medium text-gray-700 mt-4">
-            Transcription: <span className="font-bold text-green-600">{transcription}</span>
-          </p>
-        )}
-      </div>
 
-      {/* File Upload */}
-      <div className="flex flex-col items-center space-y-4 mb-6">
-        <input
-          type="file"
-          onChange={handleFileChange}
-          className="file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:bg-blue-600 file:text-white hover:file:bg-blue-700"
-        />
-        <button
-          onClick={handleSubmit}
-          className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
-        >
-          Upload
-        </button>
-        {imagePreview && (
-          <img src={imagePreview} alt="Selected" className="mt-4 max-w-xs rounded-lg shadow-md" />
-        )}
-      </div>
-
-      {/* Start Over Button */}
-      <button
-        onClick={handleReset}
-        className="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white mb-6"
-      >
-        Start Over
-      </button>
-
-      {/* Context box and button */}
-      <div>
-        <input
-          type="text"
-          placeholder="Context"
-          onChange={(e) => setContextText(e.target.value)}
-          value={contextText}
-        />
-        <button
-          onClick={handleTextSubmit}
-          className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
-        >
-          Text Button
-        </button>
-      </div>
-
-      {/* Display Result */}
-      {result === null && loading && (
-        <Bars
-          height="80"
-          width="80"
-          color="#4fa94d"
-          ariaLabel="bars-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
-      )}
-      {result && (
-        <div className="bg-white p-6 rounded-lg shadow-md text-center">
-          <p className="text-lg font-medium text-gray-700">
-            Estimated Calories: <span className="font-bold text-green-600">{result}</span>
-          </p>
-        </div>
-      )}
-    </div>
   );
 }
 
