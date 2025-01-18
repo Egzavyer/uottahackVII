@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from ImageProcessing import ImageProcessing
@@ -41,6 +41,13 @@ async def uploadImage(file: UploadFile = File(...)):
     #os.remove("./frontend/"+fileLocation)
     return {"message": res}
 
+@app.post("/text/")
+async def inputText(context: str = Form(...)):
+
+    dsc = DescriptionProcessing()
+    res = dsc.approximateCalories(context)
+    print(res)
+    return {"message": res}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

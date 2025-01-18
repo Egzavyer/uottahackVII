@@ -10,8 +10,26 @@ function App() {
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [transcription, setTranscription] = useState(null);
+  const [contextText,setContextText] = useState("");
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+
+  const handleTextSubmit = async () => {
+
+    const formData = new FormData();
+    formData.append("contextText", contextText);
+
+    try {
+      const response = await axios.post("http://localhost:8000/text/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setResult(response.data.message);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  }
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -96,7 +114,7 @@ function App() {
     }
     audioChunksRef.current = [];
   };
-
+ 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 py-10">
       <h1 className="text-4xl font-bold text-gray-800 mb-8">BabyGroqFood: Calorie Estimator</h1>
@@ -156,6 +174,21 @@ function App() {
       >
         Start Over
       </button>
+
+      {/* Context box and button*/}
+      <div>
+        <input
+          type = "text"
+          placeholder="Context"
+          onChange={(e) => setContextText(e.target.value)}
+          value = {contextText}
+        ></input>
+
+        <button        
+        onClick={handleTextSubmit}
+        className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
+        >text Button</button>
+        </div>
 
       {/* Display Result */}
       {result === null && loading &&
