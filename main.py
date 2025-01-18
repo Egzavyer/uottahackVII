@@ -22,10 +22,11 @@ async def uploadVoice(file:UploadFile = File(...)):
         f.write(await file.read())
     voice = VoiceProcessing()
     dsc = DescriptionProcessing()
-    res = dsc.approximateCalories(voice.processVoice(fileLocation))
-    print(res)
+    transcription = voice.processVoice(fileLocation)
+    res = dsc.approximateCalories(transcription)    
+    print(transcription)
     #os.remove("./frontend/"+fileLocation)
-    return {"message": res}
+    return {"transcription": transcription, "result": res}
 
 
 @app.post("/upload/")

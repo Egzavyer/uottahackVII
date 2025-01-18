@@ -7,6 +7,7 @@ function App() {
   const [result, setResult] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
+  const [transcription, setTranscription] = useState(null);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
@@ -26,7 +27,7 @@ function App() {
           "Content-Type": "multipart/form-data",
         },
       });
-      setResult(response.data);
+      setResult(response.data.message);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -72,7 +73,8 @@ function App() {
           "Content-Type": "multipart/form-data",
         },
       });
-      setResult(response.data);
+      setTranscription(response.data.transcription);
+      setResult(response.data.result);
     } catch (error) {
       console.error("Error uploading audio:", error);
     }
@@ -83,6 +85,7 @@ function App() {
     setImagePreview(null);
     setResult(null);
     setAudioBlob(null);
+    setTranscription(null);
     setIsRecording(false);
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
@@ -95,26 +98,33 @@ function App() {
       <h1 className="text-4xl font-bold text-gray-800 mb-8">BabyGroqFood: Calorie Estimator</h1>
 
       {/* Buttons for Recording */}
-      <div className="flex space-x-4 mb-6">
-        <button
-          onClick={handleRecordClick}
-          className={`px-6 py-2 rounded-lg text-white ${
-            isRecording ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"
-          }`}
-        >
-          {isRecording ? "Stop Recording" : "Start Recording"}
-        </button>
-        <button
-          onClick={handleAudioSubmit}
-          disabled={!audioBlob}
-          className={`px-6 py-2 rounded-lg ${
-            audioBlob
-              ? "bg-green-600 hover:bg-green-700 text-white"
-              : "bg-gray-400 text-gray-200 cursor-not-allowed"
-          }`}
-        >
-          Upload Recording
-        </button>
+      <div className="flex flex-col items-center space-y-4 mb-6">
+        <div className="flex space-x-4">
+          <button
+            onClick={handleRecordClick}
+            className={`px-6 py-2 rounded-lg text-white ${
+              isRecording ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            {isRecording ? "Stop Recording" : "Start Recording"}
+          </button>
+          <button
+            onClick={handleAudioSubmit}
+            disabled={!audioBlob}
+            className={`px-6 py-2 rounded-lg ${
+              audioBlob
+                ? "bg-green-600 hover:bg-green-700 text-white"
+                : "bg-gray-400 text-gray-200 cursor-not-allowed"
+            }`}
+          >
+            Upload Recording
+          </button>
+        </div>
+        {transcription && (
+          <p className="text-lg font-medium text-gray-700 mt-4">
+            Transcription: <span className="font-bold text-green-600">{transcription}</span>
+          </p>
+        )}
       </div>
 
       {/* File Upload */}
@@ -158,7 +168,7 @@ function App() {
       {result && (
         <div className="bg-white p-6 rounded-lg shadow-md text-center">
           <p className="text-lg font-medium text-gray-700">
-            Estimated Calories: <span className="font-bold text-green-600">{result.calories}</span>
+            Estimated Calories: <span className="font-bold text-green-600">{result}</span>
           </p>
         </div>
       )}

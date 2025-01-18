@@ -18,6 +18,5 @@ class VoiceProcessing:
                 response_format="json",
                 language="en",
                 temperature=0.0
-            )
-            
+            ) 
         return transcription.text
