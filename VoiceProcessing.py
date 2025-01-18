@@ -10,8 +10,8 @@ class VoiceProcessing:
         self.model = "whisper-large-v3"
         
     def processVoice(self, audioFile):
-        with open(audiofile,"rb") as file:
-            transcription = client.audio.transcription.create(
+        with open(audioFile,"rb") as file:
+            transcription = self.client.audio.transcriptions.create(
                 file = (audioFile,file.read()),
                 model = self.model,
                 prompt = "Transcript as accurately as possible",
