@@ -10,7 +10,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:5173"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -22,10 +22,11 @@ async def uploadVoice(file:UploadFile = File(...)):
         f.write(await file.read())
     voice = VoiceProcessing()
     dsc = DescriptionProcessing()
-    res = dsc.approximateCalories(voice.processVoice())
-    print(res)
-    os.remove(fileLocation)
-    return {"message": res}
+    transcription = voice.processVoice(fileLocation)
+    res = dsc.approximateCalories(transcription)    
+    print(transcription)
+    #os.remove("./frontend/"+fileLocation)
+    return {"transcription": transcription, "result": res}
 
 
 @app.post("/upload/")
@@ -37,7 +38,7 @@ async def uploadImage(file: UploadFile = File(...)):
     dsc = DescriptionProcessing()
     res = dsc.approximateCalories(img.imageToText(img.encodeImage(fileLocation)))
     print(res)
-    os.remove(fileLocation)
+    #os.remove("./frontend/"+fileLocation)
     return {"message": res}
 
 
