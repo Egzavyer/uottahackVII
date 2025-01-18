@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { TailSpin } from 'react-loader-spinner';
-import { TailSpin } from 'react-loader-spinner';
+import Modal from "react-modal";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -167,7 +167,7 @@ function App() {
                 onClick={handleSubmit}
                 className="w-full px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
               >
-                Upload
+                Calculate
               </button>
             </div>
     
