@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-import {Bars} from 'react-loader-spinner';
+import {BallTriangle} from 'react-loader-spinner';
 
 function App() {
   const [loading,setLoading] = useState(false);
@@ -20,6 +20,7 @@ function App() {
     formData.append("context", contextText);
 
     try {
+      setLoading(true);
       const response = await axios.post("http://localhost:8000/text/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -109,6 +110,7 @@ function App() {
     setAudioBlob(null);
     setTranscription(null);
     setIsRecording(false);
+    setLoading(false);
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
     }
@@ -196,7 +198,7 @@ function App() {
         height={100}
         width={100}
         radius={5}
-        color="#4fa94d"
+        color="#A020F0"
         ariaLabel="ball-triangle-loading"
         wrapperStyle={{}}
         wrapperClass=""
