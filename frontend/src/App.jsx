@@ -94,8 +94,8 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 py-10">
-      <h1 className="text-4xl font-bold text-gray-800 mb-8">BabyGroqFood: Calorie Estimator</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-10">
+      <h1 className="text-6xl font-bold text-gray-800 mb-8">BabyGroqFood: Calorie Estimator</h1>
 
       {/* Buttons for Recording */}
       <div className="flex flex-col items-center space-y-4 mb-6">
