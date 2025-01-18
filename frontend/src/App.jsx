@@ -143,6 +143,17 @@ function App() {
         Start Over
       </button>
 
+      {/* Context box */}
+      <div>
+        <input
+        type = "text"
+        placeholder="Context"
+
+        
+        ></input>
+
+      </div>
+
       {/* Display Result */}
       {result && (
         <div className="bg-white p-6 rounded-lg shadow-md text-center">
